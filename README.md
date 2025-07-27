@@ -2,7 +2,7 @@
 
 Slides for talk at [useR! 2025](https://user2025.r-project.org/program/in-person/) in August 2025
 
-![](images/galaxy-brain.jpg | width=200)
+<img src="images/galaxy-brain.jpg" width="200">
 
 ## Outgrowing your laptop with Positron
 
