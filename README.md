@@ -1,8 +1,7 @@
-# useR-2025
+# useR-2025 <img src="images/galaxy-brain.jpg" align="right" width="200"/>
+
 
 Slides for talk at [useR! 2025](https://user2025.r-project.org/program/in-person/) in August 2025
-
-<img src="images/galaxy-brain.jpg" width="200">
 
 ## Outgrowing your laptop with Positron
 
