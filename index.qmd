@@ -50,8 +50,8 @@ knitr:
 %%| fig-align: center
 flowchart
 subgraph "Your Laptop"
-A[Positron] --> B[R Session]
-B --> C([CSV File])
+A[Positron] --- B[R Session]
+B --- C([CSV File])
 end
 ```
 
@@ -89,9 +89,12 @@ TODO: screenshot of CSV workflow
 ```{mermaid}
 %%| fig-align: center
 flowchart
-subgraph "Your Laptop"
-A[Positron] --> B[R Session]
-B --> C(["Parquet File(s)"])
+subgraph X [Your Laptop]
+D[Positron]
+E[R Session]
+F([Parquet File])
+D --- E
+E --- F
 end
 ```
 
@@ -126,8 +129,8 @@ df |>
 %%| fig-align: center
 flowchart
 subgraph "Your Laptop"
-A[Positron] --> B[R Session]
-B --> C(["Parquet File(s)"])
+A[Positron] --- B[R Session]
+B --- C(["Parquet File(s)"])
 end
 ```
 
@@ -138,10 +141,10 @@ end
 %%| fig-align: center
 flowchart LR
 subgraph "Your Laptop"
-A[Positron] --> B[R Session]
+A[Positron] --- B[R Session]
 end
 subgraph "S3 Bucket"
-B --> C(["Parquet File(s)"])
+B --- C(["Parquet File(s)"])
 end
 ```
 
@@ -187,10 +190,10 @@ TODO: screenshot of duckdb workflow
 %%| fig-align: center
 flowchart LR
 subgraph "Your Laptop"
-A[Positron] --> B[R Session]
+A[Positron] --- B[R Session]
 end
 subgraph "Remote Server"
-B --> C(["Database"])
+B --- C(["Database"])
 end
 ```
 
@@ -249,9 +252,9 @@ subgraph "Your Laptop"
 A[Positron UI]
 end
 subgraph "Remote Server"
-A -- SSH --> B[Positron Backend]
-B --> C[R Session]
-C --> D([Your Files])
+A -- SSH --- B[Positron Backend]
+B --- C[R Session]
+C --- D([Your Files])
 end
 ```
 
