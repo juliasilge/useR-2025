@@ -1,0 +1,294 @@
+---
+title: "Outgrowing your laptop with Positron"
+author: "useR! 2025 | Julia Silge"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    highlight-style: pygments
+    footer: <https://juliasilge.github.io/useR-2025>
+    preview-links: auto
+    width: 1280
+    height: 720
+    incremental: true
+    transition: fade
+    background-transition: fade
+    code-line-numbers: false
+    mermaid-format: svg
+    title-slide-attributes: 
+      data-background-image: images/positron.png
+      data-background-size: "contain"
+      data-background-opacity: "0.25"
+knitr:
+  opts_chunk: 
+    echo: true
+    eval: false
+    collapse: true
+    comment: "#>"
+---
+
+## Hello!
+
+<center>
+
+<img src="https://github.com/juliasilge.png" style="border-radius: 50%;" width="300px"/>
+
+[{{< fa brands github >}} \@juliasilge](https://github.com/juliasilge)
+
+[{{< fa brands bluesky >}} \@juliasilge.com](https://bsky.app/profile/juliasilge.com)
+
+[{{< fa brands mastodon >}} \@juliasilge\@fosstodon.org](https://fosstodon.org/@juliasilge)
+
+[{{< fa brands youtube >}} youtube.com/juliasilge](https://www.youtube.com/juliasilge)
+
+[{{< fa link >}} juliasilge.com](https://juliasilge.com/)
+
+</center>
+
+## Where do we start?
+
+```{mermaid}
+%%| fig-align: center
+flowchart
+subgraph "Your Laptop"
+A[Positron] --> B[R Session]
+B --> C([CSV File])
+end
+```
+
+## Where do we start?
+
+```{r}
+library(tidyverse)
+
+df <- read_csv("pokemon_df.csv")
+df |>
+  group_by(type_1) |>
+  summarize(hp = mean(hp)) |>
+  arrange(-hp)
+```
+
+##
+
+TODO: screenshot of CSV workflow
+
+# Your laptop is a great place to start! {background-color="black" background-image="images/galaxy-tile.jpg"  background-size="250px" background-repeat="repeat" background-opacity="0.4"}
+
+- Memory
+- Performance
+
+::: footer
+:::
+
+## {background-image="images/galaxy-brain.jpg" background-size="contain"}
+
+::: footer
+:::
+
+## Lazy evaluation with duckdb
+
+```{mermaid}
+%%| fig-align: center
+flowchart
+subgraph "Your Laptop"
+A[Positron] --> B[R Session]
+B --> C(["Parquet File(s)"])
+end
+```
+
+## Lazy evaluation with duckdb
+
+```{r}
+library(tidyverse)
+library(duckplyr)
+
+df <- read_parquet_duckdb("flights.parquet")
+df |>
+  summarize(.by = month, arr_delay = mean(arr_delay, na.rm = TRUE)) |>
+  arrange(month)
+```
+
+## Lazy evaluation with duckdb
+
+```{r}
+library(tidyverse)
+library(duckplyr)
+
+df <- read_parquet_duckdb("flights.parquet")
+df |>
+  summarize(.by = month, arr_delay = mean(arr_delay, na.rm = TRUE)) |>
+  arrange(month) |>
+  collect()
+```
+
+## Lazy evaluation with duckdb
+
+```{mermaid}
+%%| fig-align: center
+flowchart
+subgraph "Your Laptop"
+A[Positron] --> B[R Session]
+B --> C(["Parquet File(s)"])
+end
+```
+
+
+## Lazy evaluation with duckdb
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+subgraph "Your Laptop"
+A[Positron] --> B[R Session]
+end
+subgraph "S3 Bucket"
+B --> C(["Parquet File(s)"])
+end
+```
+
+## Lazy evaluation with duckdb
+
+```{r}
+library(tidyverse)
+library(duckplyr)
+
+urls <- glue::glue(
+  "https://blobs.duckdb.org/flight-data-partitioned/Year={2022:2024}/data_0.parquet"
+)
+
+df <- read_parquet_duckdb(urls)
+df |>
+  summarize(.by = Month, ArrDelay = mean(ArrDelay, na.rm = TRUE)) |>
+  arrange(Month)
+```
+
+##
+
+TODO: screenshot of duckdb workflow
+
+## Lazy evaluation with duckdb
+
+::: {.callout-tip}
+# Tips
+- Keep in mind that DuckDB is an **engine** for executing queries and Parquet is a **file format**
+- Working with lazy queries can take some getting used to
+- Translation between dplyr and DuckDB is amazing, but [not everything is supported](https://duckplyr.tidyverse.org/reference/unsupported.html)
+- If you need to read or write parquet files yourself, try out the [nanoparquet](https://nanoparquet.r-lib.org/) package
+- Once files are not on your laptop, often the hardest part is... auth 😩
+:::
+
+## {background-image="images/galaxy-brain.jpg" background-size="contain"}
+
+::: footer
+:::
+
+## Connect to databases
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+subgraph "Your Laptop"
+A[Positron] --> B[R Session]
+end
+subgraph "Remote Server"
+B --> C(["Database"])
+end
+```
+
+## Connect to databases
+
+```{r}
+library(tidyverse)
+
+con <- connections::connection_open(RSQLite::SQLite(), "nycflights13.sqlite")
+df <- tbl(con, "flights")
+df |>
+  group_by(month) |>
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE))
+```
+
+## Connect to databases
+
+```{r}
+library(tidyverse)
+
+con <- connections::connection_open(RSQLite::SQLite(), "nycflights13.sqlite")
+df <- tbl(con, "flights")
+df |>
+  group_by(month) |>
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) |>
+  collect()
+```
+
+
+##
+
+TODO: screenshot of SQL workflow
+
+## Connect to databases
+
+::: {.callout-tip}
+# Tips
+- Keep in mind that it's worth learning a little SQL, even if you use [dbplyr](https://dbplyr.tidyverse.org/)
+- Once again, working with lazy queries can take some getting used to
+- Also once again, translation between dplyr and SQL is amazing, but [subtleties sometime come up](https://dbplyr.tidyverse.org/articles/translation-function.html)
+- You can also use the Connections Pane with DuckDB!
+- When working with databases, often the hardest part is... auth 😩
+:::
+
+## {background-image="images/galaxy-brain.jpg" background-size="contain"}
+
+::: footer
+:::
+
+## Remote SSH sessions
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+subgraph "Your Laptop"
+A[Positron UI]
+end
+subgraph "Remote Server"
+A -- SSH --> B[Positron Backend]
+B --> C[R Session]
+C --> D([Your Files])
+end
+```
+
+##
+
+TODO: screenshot of remote SSH workflow
+
+## Remote SSH sessions
+
+::: {.callout-tip}
+# Tips
+- Keep in mind that your terminals, files, extensions, etc are on the remote server
+- You can control how long your sessions run via the `kernelSupervisor.shutdownTimeout` setting
+- You can also use these types of remote sessions _all locally_ with Docker for reproducibility; [check out Andrew Heiss' recent blog post](https://www.andrewheiss.com/blog/2025/07/05/positron-ssh-docker/)
+- When working with remote sessions, often the hardest part is... auth 😩
+:::
+
+# Want to try out Positron?
+
+- Visit <https://positron.posit.co/> for documentation and installers
+- Find us on GitHub at <https://github.com/posit-dev/positron>
+- You can use Positron in a server environment on [Posit Workbench](https://posit.co/products/enterprise/workbench/)
+
+## Thank you!
+
+<center>
+
+<img src="https://github.com/juliasilge.png" style="border-radius: 50%;" width="300px"/>
+
+[{{< fa brands github >}} \@juliasilge](https://github.com/juliasilge)
+
+[{{< fa brands bluesky >}} \@juliasilge.com](https://bsky.app/profile/juliasilge.com)
+
+[{{< fa brands mastodon >}} \@juliasilge\@fosstodon.org](https://fosstodon.org/@juliasilge)
+
+[{{< fa brands youtube >}} youtube.com/juliasilge](https://www.youtube.com/juliasilge)
+
+[{{< fa link >}} juliasilge.com](https://juliasilge.com/)
+
+</center>
