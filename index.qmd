@@ -255,9 +255,7 @@ C --- D([Your Files])
 end
 ```
 
-##
-
-TODO: screenshot of remote SSH workflow
+## {background-image="images/screenshot-duckdb.png" background-size="90%"}
 
 ## Remote SSH sessions
 
