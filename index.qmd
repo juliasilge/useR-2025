@@ -67,9 +67,8 @@ df |>
   arrange(-hp)
 ```
 
-##
+## {background-image="images/screenshot-csv.png" background-size="90%"}
 
-![](images/screenshot-csv.png){fig-align="center"}
 
 # Your laptop is a great place to start! {background-color="black" background-image="images/galaxy-tile.jpg"  background-size="250px" background-repeat="repeat" background-opacity="0.4"}
 
@@ -164,9 +163,8 @@ df |>
   arrange(Month)
 ```
 
-##
+## {background-image="images/screenshot-duckdb.png" background-size="90%"}
 
-![](images/screenshot-duckdb.png){fig-align="center"}
 
 ## Lazy evaluation with duckdb
 
@@ -223,9 +221,8 @@ df |>
 ```
 
 
-##
+## {background-image="images/screenshot-db.png" background-size="90%"}
 
-![](images/screenshot-db.png){fig-align="center"}
 
 ## Connect to databases
 
