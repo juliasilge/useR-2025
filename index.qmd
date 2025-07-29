@@ -69,7 +69,7 @@ df |>
 
 ##
 
-TODO: screenshot of CSV workflow
+![](images/screenshot-csv.png){fig-align="center"}
 
 # Your laptop is a great place to start! {background-color="black" background-image="images/galaxy-tile.jpg"  background-size="250px" background-repeat="repeat" background-opacity="0.4"}
 
@@ -166,7 +166,7 @@ df |>
 
 ##
 
-TODO: screenshot of duckdb workflow
+![](images/screenshot-duckdb.png){fig-align="center"}
 
 ## Lazy evaluation with duckdb
 
@@ -225,7 +225,7 @@ df |>
 
 ##
 
-TODO: screenshot of SQL workflow
+![](images/screenshot-db.png){fig-align="center"}
 
 ## Connect to databases
 
