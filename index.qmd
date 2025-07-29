@@ -21,7 +21,6 @@ format:
 knitr:
   opts_chunk: 
     echo: true
-    eval: false
     collapse: true
     comment: "#>"
 ---
@@ -255,7 +254,7 @@ C --- D([Your Files])
 end
 ```
 
-## {background-image="images/screenshot-duckdb.png" background-size="90%"}
+## {background-image="images/screenshot-ssh.png" background-size="90%"}
 
 ## Remote SSH sessions
 
